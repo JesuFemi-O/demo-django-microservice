@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: demo-product
+  name: demo-product
+  namespace: demo-product
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-product
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: demo-product
+    spec:
+      containers: # to change
+        - image: demo-product-gitops
+          imagePullPolicy: IfNotPresent
+          name: demo-product-gitops
