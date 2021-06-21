@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: demo-auth
+  name: demo-auth
+  namespace: demo-auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-auth
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: demo-auth
+    spec:
+      containers: # to change
+        - image: docker.io/jayefee/demo-auth-app:latest
+          imagePullPolicy: IfNotPresent
+          name: demo-auth-app
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-auth-service
+  namespace: demo-auth
+  labels:
+    app: demo-auth
+spec:
+  ports:
+  - port: 3000
+    name: http
+  selector:
+    app: demo-auth
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: demo-product
+  name: demo-product
+  namespace: demo-product
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-product
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: demo-product
+    spec:
+      containers: # to change
+        - image: docker.io/jayefee/demo-product-app:latest
+          imagePullPolicy: IfNotPresent
+          name: demo-product-app
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-product-service
+  namespace: demo-product
+  labels:
+    app: demo-product
+spec:
+  ports:
+  - port: 3000
+    name: http
+  selector:
+    app: demo-product
