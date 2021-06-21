@@ -10,6 +10,12 @@ the end goal was to just learn how to deploy microservices on kubernetes using i
 
 ## How to run
 
+you should first create a .env file in both auth-service/src and product_service/src and add:
+
+```
+    SECRET_KEY=your-secret-key
+```
+
 in either service folder...
 
 - build image
